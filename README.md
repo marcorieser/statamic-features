@@ -10,7 +10,6 @@ composer require edalzell/statamic-features
 
 This package is a laravel-features [extension](https://github.com/edalzell/laravel-features#extensions): its provider tags `Extensions`, and laravel-features hands every feature to it once the feature's Laravel pieces have booted. A feature keeps extending laravel-features' `FeatureServiceProvider` and just gains the folders below.
 
-
 ## What's registered
 
 | Feature path | What happens |
@@ -25,6 +24,10 @@ This package is a laravel-features [extension](https://github.com/edalzell/larav
 | `routes/actions.php` | Action routes, prefixed with the feature's slug: `/!/my-feature/...` |
 
 Routes go through Statamic because `Route::statamic()` only exists once it has booted, after a feature's route files load. The extension supplies these three route groups for every feature; override `routeGroups()` on one feature's provider to change them for that feature. Other route files keep the groups laravel-features gives them.
+
+Everything above is keyed by the feature's slug, so two features with the same name can't both be loaded; the second throws.
+
+Settings blueprints aren't handled per feature — those stay with the addon or site that hosts it.
 
 ## Control panel assets
 
@@ -49,10 +52,6 @@ protected function options(): array
     return ['statamic.vite' => ['input' => 'resources/js/cp.js', 'publicDirectory' => 'public']];
 }
 ```
-
-Everything above is keyed by the feature's slug, so two features with the same name can't both be loaded; the second throws.
-
-Settings blueprints aren't handled per feature — those stay with the addon or site that hosts it.
 
 ## Serializable classes
 
